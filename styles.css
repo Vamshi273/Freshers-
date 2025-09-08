@@ -1,62 +1,169 @@
+/* ===== General Styles ===== */
 body {
   font-family: Arial, sans-serif;
-  background: #f4f4f4;
   margin: 0;
   padding: 0;
+  background: #f5f7fa;
+  color: #333;
   text-align: center;
 }
 
 header {
-  background: #673ab7;
+  background: #4caf50;
   color: white;
   padding: 1rem;
 }
 
-main {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  margin: 2rem;
+h1 {
+  margin: 0;
 }
 
-.option {
+h2 {
+  margin: 1rem 0 0.5rem;
+  color: #444;
+}
+
+/* ===== Voting Section ===== */
+main {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin: 2rem auto;
+  max-width: 1200px;
+}
+
+/* Group container (Males / Females) */
+.group {
   background: white;
-  border: 2px solid #673ab7;
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  flex: 1;
+  min-width: 280px;
+}
+
+/* Candidate card */
+.option {
+  background: #fff;
+  border: 2px solid #4caf50;
   border-radius: 12px;
   padding: 1rem;
-  width: 220px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin: 1rem auto;
+  width: 200px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.option:hover {
+  transform: scale(1.05);
 }
 
 .option img {
-  width: 200px;
-  height: 250px;
+  width: 100%;
+  height: 220px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
-.option h2 {
+.option h3 {
   margin: 0.5rem 0;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  color: #333;
 }
 
+/* Vote button */
 .option button {
-  background: #673ab7;
+  background: #4caf50;
   border: none;
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.option button:hover {
+  background: #45a049;
 }
 
 .option button:disabled {
   background: gray;
+  cursor: not-allowed;
 }
 
 .count {
   font-size: 1.1rem;
   margin-top: 0.5rem;
   font-weight: bold;
+  color: #444;
+}
+
+/* ===== Admin Panel ===== */
+#adminPanel {
+  margin: 3rem auto;
+  max-width: 800px;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: none; /* Hidden by default */
+}
+
+#adminPanel h2 {
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+.results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.result-card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 1rem;
+  width: 180px;
+  text-align: center;
+  background: #f9f9f9;
+}
+
+.result-card h3 {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.result-card span {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  color: #4caf50;
+  font-weight: bold;
+}
+
+/* Reset button */
+#resetVotes {
+  margin-top: 2rem;
+  background: #e53935;
+  border: none;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+#resetVotes:hover {
+  background: #c62828;
+}
+
+footer {
+  margin: 2rem 0;
+  font-size: 0.9rem;
+  color: #666;
 }
