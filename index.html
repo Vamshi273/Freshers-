@@ -1,40 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Freshers Day Voting</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header>
-    <h1>🎉 Freshers Day Voting 🎉</h1>
-    <p>Vote for your favorite contestants!</p>
-  </header>
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #f0f0f0;
+  margin: 0;
+  padding: 20px;
+}
 
-  <main>
-    <section>
-      <h2>Male Contestants</h2>
-      <div id="male-options" class="options"></div>
-    </section>
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
 
-    <section>
-      <h2>Female Contestants</h2>
-      <div id="female-options" class="options"></div>
-    </section>
+.section {
+  margin: 20px 0;
+}
 
-    <!-- Hidden Admin Panel -->
-    <section id="adminPanel" style="display:none;">
-      <h2>📊 Admin Panel</h2>
-      <div id="results"></div>
-      <button onclick="resetVotes()">🔄 Reset Votes</button>
-    </section>
-  </main>
+.grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
 
-  <footer>
-    <p>⚡ One vote per device is allowed</p>
-  </footer>
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 10px;
+  width: 180px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
 
-  <script src="app.js"></script>
-</body>
-</html>
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.card.selected {
+  border: 3px solid green;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 6px;
+  background: #007BFF;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+.admin {
+  margin-top: 30px;
+  padding: 20px;
+  background: #fff3cd;
+  border: 2px solid #ffeeba;
+  border-radius: 10px;
+}
+
+.hidden {
+  display: none;
+}
