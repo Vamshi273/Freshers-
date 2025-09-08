@@ -1,76 +1,43 @@
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background: #f0f0f0;
-  margin: 0;
-  padding: 20px;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Celebrity Voting</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Vote for Your Favourite!</h1>
 
-h1 {
-  color: #333;
-  margin-bottom: 20px;
-}
+  <div class="section">
+    <h2>Male Celebrities</h2>
+    <div id="male-container" class="grid"></div>
+  </div>
 
-.section {
-  margin: 20px 0;
-}
+  <div class="section">
+    <h2>Female Celebrities</h2>
+    <div id="female-container" class="grid"></div>
+  </div>
 
-.grid {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 15px;
-}
+  <button id="submitBtn">Submit Vote</button>
 
-.card {
-  background: white;
-  border-radius: 12px;
-  padding: 10px;
-  width: 180px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  cursor: pointer;
-  transition: transform 0.2s;
-}
+  <!-- Admin Panel (hidden by default) -->
+  <div id="adminPanel" class="admin hidden">
+    <h2>Admin Panel</h2>
+    <div id="results"></div>
+    <button id="resetBtn">Reset All Votes</button>
+  </div>
 
-.card:hover {
-  transform: scale(1.05);
-}
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+    import { getDatabase, ref, set, get, update, remove } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js";
 
-.card img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  border-radius: 8px;
-}
+    // Expose Firebase globally for app.js
+    window.firebaseExports = { initializeApp, getDatabase, ref, set, get, update, remove };
+  </script>
 
-.card.selected {
-  border: 3px solid green;
-}
-
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin-top: 15px;
-  border: none;
-  border-radius: 6px;
-  background: #007BFF;
-  color: white;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-button:hover {
-  background: #0056b3;
-}
-
-.admin {
-  margin-top: 30px;
-  padding: 20px;
-  background: #fff3cd;
-  border: 2px solid #ffeeba;
-  border-radius: 10px;
-}
-
-.hidden {
-  display: none;
-}
+  <!-- App Logic -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
