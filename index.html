@@ -9,29 +9,23 @@
 <body>
   <header>
     <h1>🎉 Freshers Day Voting 🎉</h1>
-    <p>Vote for your favorite star!</p>
-    <button id="adminLogin">🔐 Admin Login</button>
+    <p>Vote for your favorite contestant!</p>
   </header>
 
-  <section>
-    <h2>Male Contestants</h2>
-    <div class="options" id="male-options"></div>
-  </section>
-
-  <section>
-    <h2>Female Contestants</h2>
-    <div class="options" id="female-options"></div>
-  </section>
-
-  <section id="adminPanel">
-    <h2>Admin Panel</h2>
-    <div id="results" class="results"></div>
-  </section>
+  <main>
+    <section>
+      <h2>Contestants</h2>
+      <div id="contestants" class="options">
+        <!-- Contestants will be loaded here by app.js -->
+      </div>
+    </section>
+  </main>
 
   <footer>
-    <p>One vote per browser is allowed</p>
+    <p>⚡ One vote per browser is allowed</p>
   </footer>
 
+  <!-- Firebase + App Logic -->
   <script type="module" src="app.js"></script>
 </body>
 </html>
