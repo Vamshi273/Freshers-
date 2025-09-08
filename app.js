@@ -1,6 +1,6 @@
-// app.js — Freshers Day Voting System
+// app.js — Freshers Day Voting System with Firebase
 
-// Import Firebase SDK
+// Import Firebase SDK (modular v10+)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
 import {
   getDatabase,
@@ -11,7 +11,7 @@ import {
   get
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
 
-// ✅ Your Firebase config (from console)
+// === Your Firebase Config (already filled in) ===
 const firebaseConfig = {
   apiKey: "AIzaSyAT1fvVo-2B2-F5OFs7cYu8CZUxnneW934",
   authDomain: "freshers-day-bf826.firebaseapp.com",
@@ -26,27 +26,26 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// ======= Voting Options =======
-// Change labels here if you want more teams
+// === Voting Options (add more teams here) ===
 const OPTIONS = [
   { id: "teamA", label: "Team A" },
-  { id: "teamB", label: "Team B" }
+  { id: "teamB", label: "Team B" },
+  { id: "teamC", label: "Team C" }
 ];
 
-// Database path where votes are stored
+// Path in database
 const DB_PATH = "votes";
 
-// LocalStorage key to prevent multiple votes from same browser
+// Prevent multiple votes (per browser)
 const LS_KEY = "freshers_vote_cast";
 
-// === Build Options in HTML ===
+// === Render options into HTML ===
 function renderOptions() {
   const container = document.getElementById("options");
   container.innerHTML = "";
   OPTIONS.forEach(opt => {
     const div = document.createElement("div");
     div.className = "option";
-
     div.innerHTML = `
       <h2>${opt.label}</h2>
       <button id="btn-${opt.id}">Vote</button>
@@ -54,12 +53,12 @@ function renderOptions() {
     `;
     container.appendChild(div);
 
-    // Add click listener
+    // Add event listener
     document.getElementById(`btn-${opt.id}`).addEventListener("click", () => vote(opt.id));
   });
 }
 
-// === Voting Function ===
+// === Handle Vote ===
 function vote(optionId) {
   const voted = JSON.parse(localStorage.getItem(LS_KEY) || "{}");
   if (voted.done) {
@@ -82,7 +81,7 @@ function vote(optionId) {
   });
 }
 
-// === Disable Buttons After Vote ===
+// === Disable vote buttons after voting ===
 function disableAllButtons() {
   OPTIONS.forEach(opt => {
     const btn = document.getElementById(`btn-${opt.id}`);
@@ -93,7 +92,7 @@ function disableAllButtons() {
   });
 }
 
-// === Listen for Realtime Updates ===
+// === Live updates from Firebase ===
 function startRealtimeUpdates() {
   OPTIONS.forEach(opt => {
     const countRef = ref(db, `${DB_PATH}/${opt.id}`);
@@ -104,7 +103,7 @@ function startRealtimeUpdates() {
   });
 }
 
-// === Initialize on Load ===
+// === Initialize App ===
 window.addEventListener("DOMContentLoaded", () => {
   renderOptions();
   startRealtimeUpdates();
