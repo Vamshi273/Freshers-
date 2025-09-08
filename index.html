@@ -9,23 +9,32 @@
 <body>
   <header>
     <h1>🎉 Freshers Day Voting 🎉</h1>
-    <p>Vote for your favorite contestant!</p>
+    <p>Vote for your favorite contestants!</p>
   </header>
 
   <main>
     <section>
-      <h2>Contestants</h2>
-      <div id="contestants" class="options">
-        <!-- Contestants will be loaded here by app.js -->
-      </div>
+      <h2>Male Contestants</h2>
+      <div id="male-options" class="options"></div>
+    </section>
+
+    <section>
+      <h2>Female Contestants</h2>
+      <div id="female-options" class="options"></div>
+    </section>
+
+    <!-- Hidden Admin Panel -->
+    <section id="adminPanel" style="display:none;">
+      <h2>📊 Admin Panel</h2>
+      <div id="results"></div>
+      <button onclick="resetVotes()">🔄 Reset Votes</button>
     </section>
   </main>
 
   <footer>
-    <p>⚡ One vote per browser is allowed</p>
+    <p>⚡ One vote per device is allowed</p>
   </footer>
 
-  <!-- Firebase + App Logic -->
-  <script type="module" src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
