@@ -1,8 +1,8 @@
-// Import Firebase
+// ✅ Import Firebase SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, set, get, child, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, get, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-// Your Firebase config
+// ✅ Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAT1fvVo-2B2-F5OFs7cYu8CZUxnneW934",
   authDomain: "freshers-day-bf826.firebaseapp.com",
@@ -13,11 +13,11 @@ const firebaseConfig = {
   appId: "1:349491807955:web:4d97f2bfb667503d36f626"
 };
 
-// Init Firebase
+// ✅ Init Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Contestants
+// ✅ Contestants
 const males = [
   {name:"Prabhas", img:"prabhas_latest_photos_2807170354_03.jpg"},
   {name:"Appu", img:"517EDEYjsHL.jpg"},
@@ -30,56 +30,65 @@ const females = [
   {name:"Sreelela", img:"Sreeleela-m-1.jpg"},
   {name:"Kajal", img:"a4c87cf5b9871dd67ebc6df0627d000a.jpg"}
 ];
-const females = [
-  {name:"Samantha", img:"samantha-ruth-prabhu-stills-photos-pictures-2008.jpg"},
-  {name:"Sai Pallavi", img:"HD-wallpaper-sai-pallavi-fidaa-love-story-naga-chaitanya-sai-pallavi-shekhar-kammula-tollywood.jpg"},
-  {name:"Sreelela", img:"Sreeleela-m-1.jpg"},
-  {name:"Kajal", img:"a4c87cf5b9871dd67ebc6df0627d000a.jpg"}
-];
+// ✅ Render contestants
+document.getElementById("contestants").innerHTML = contestants.map(c => `
+  <div class="option">
+    <img src="${c.img}" alt="${c.name}">
+    <h3>${c.name}</h3>
+    <button onclick="vote('${c.name}')">Vote</button>
+  </div>
+`).join("");
 
-// Create card
-function createCard(person) {
-  return `
-    <div class="option">
-      <img src="${person.img}" alt="${person.name}">
-      <h3>${person.name}</h3>
-      <button onclick="vote('${person.name}')">Vote</button>
-    </div>
-  `;
-}
-
-// Render contestants
-document.getElementById("male-options").innerHTML = males.map(createCard).join("");
-document.getElementById("female-options").innerHTML = females.map(createCard).join("");
-
-// Vote function
-window.vote = async function (name) {
-  // Prevent multiple votes
+// ✅ Voting function (only 1 vote per device)
+window.vote = async function(name) {
   if (localStorage.getItem("hasVoted")) {
-    alert("❌ You already voted!");
+    alert("❌ You already voted from this device!");
     return;
   }
 
   try {
-    // Reference to candidate
     const voteRef = ref(db, "votes/" + name);
-
-    // Get current votes
     const snapshot = await get(voteRef);
-    let currentVotes = 0;
-    if (snapshot.exists()) {
-      currentVotes = snapshot.val();
-    }
+    let current = snapshot.exists() ? snapshot.val() : 0;
 
-    // Update vote
-    await set(voteRef, currentVotes + 1);
-
-    // Save vote status locally
+    await set(voteRef, current + 1);
     localStorage.setItem("hasVoted", "true");
 
     alert(`✅ Your vote for ${name} is submitted!`);
   } catch (err) {
-    console.error(err);
+    console.error("Vote error:", err);
     alert("⚠️ Error submitting vote.");
   }
 };
+
+// ✅ Admin panel toggle with Ctrl+R
+const adminPanel = document.createElement("div");
+adminPanel.id = "adminPanel";
+adminPanel.style.display = "none";
+adminPanel.innerHTML = `
+  <h2>Admin Panel</h2>
+  <div id="results"></div>
+`;
+document.body.appendChild(adminPanel);
+
+// Show live votes in admin panel
+function loadResults() {
+  const resultsDiv = document.getElementById("results");
+  const votesRef = ref(db, "votes/");
+  onValue(votesRef, (snapshot) => {
+    const data = snapshot.val() || {};
+    resultsDiv.innerHTML = Object.entries(data).map(([name, count]) =>
+      `<p><strong>${name}</strong>: ${count} votes</p>`
+    ).join("");
+  });
+}
+
+// Detect Ctrl+R → open admin panel instead of refresh
+document.addEventListener("keydown", function(event) {
+  if (event.ctrlKey && event.key === "r") {
+    event.preventDefault(); // Stop page refresh
+    adminPanel.style.display = "block";
+    loadResults();
+    alert("🔐 Admin Panel Opened");
+  }
+});
