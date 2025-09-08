@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/fireba
 import { getDatabase, ref, set, get, child, update } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js";
 // Contestants
 const males = [
-  {name:"Prabhas", img:"prabhas_latest_photos_2807170354_03.jpg"},
+  {name:"Prabhas", img:"4b66c7797edf566ce33faf716aff65f6.jpg"},
   {name:"Appu", img:"4b66c7797edf566ce33faf716aff65f6.jpg"},
   {name:"Chiranjeevi", img:"517EDEYjsHL.jpg"},
   {name:"Ramcharan", img:"MV5BZWY1NTQyMWItMWU2OS00NWMwLWFlN2MtMDZlYzEwZmU3MTYzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"}
