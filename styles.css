@@ -1,75 +1,55 @@
-/* === Global Reset === */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
+/* ===== General Page Style ===== */
 body {
-  background: #f2f2f2;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #ffdde1, #ee9ca7);
   color: #333;
   text-align: center;
 }
 
-/* === Header === */
+/* ===== Header ===== */
 header {
-  background: #28a745;
+  background: #ff4b2b;
   color: white;
   padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 header h1 {
-  font-size: 28px;
-  margin-bottom: 5px;
+  margin: 0;
+  font-size: 2rem;
 }
 
 header p {
-  font-size: 14px;
+  margin: 5px 0 0;
+  font-size: 1.1rem;
 }
 
-header button {
-  background: #fff;
-  color: #28a745;
-  border: 1px solid #fff;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  margin-top: 8px;
-  transition: background 0.3s ease;
-}
-
-header button:hover {
-  background: #dff5e3;
-}
-
-/* === Sections === */
+/* ===== Contestant Section ===== */
 section {
   padding: 20px;
 }
 
-section h2 {
+h2 {
   margin-bottom: 15px;
-  font-size: 20px;
+  font-size: 1.5rem;
   color: #222;
 }
 
-/* === Voting Options === */
 .options {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 15px;
+  gap: 20px;
 }
 
 .option {
   background: white;
-  padding: 12px;
-  border-radius: 10px;
+  border-radius: 12px;
+  padding: 15px;
   width: 180px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  transition: transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  transition: transform 0.2s;
 }
 
 .option:hover {
@@ -80,79 +60,59 @@ section h2 {
   width: 100%;
   height: 220px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 .option h3 {
   margin: 10px 0;
-  font-size: 18px;
-}
-
-.option button {
-  background: #28a745;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background 0.3s ease;
-}
-
-.option button:hover {
-  background: #1f7a35;
-}
-
-.option .count {
-  margin-top: 6px;
-  font-size: 14px;
+  font-size: 1.1rem;
   color: #444;
 }
 
-/* === Admin Panel === */
+.option button {
+  padding: 10px 15px;
+  background: #ff4b2b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.option button:hover {
+  background: #ff6a4d;
+}
+
+/* ===== Footer ===== */
+footer {
+  background: #ff4b2b;
+  color: white;
+  padding: 15px;
+  font-size: 0.9rem;
+  margin-top: 20px;
+}
+
+/* ===== Admin Panel ===== */
 #adminPanel {
-  display: none;
-  margin: 25px auto;
+  margin: 30px auto;
+  max-width: 500px;
+  background: white;
+  border-radius: 12px;
   padding: 20px;
-  max-width: 650px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
 }
 
 #adminPanel h2 {
+  color: #ff4b2b;
   margin-bottom: 15px;
-  color: #222;
 }
 
-.results {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 12px;
-}
-
-.result-card {
+#results p {
   background: #f9f9f9;
-  border: 1px solid #ddd;
   padding: 10px;
-  border-radius: 8px;
-}
-
-.result-card h3 {
-  margin-bottom: 6px;
-  font-size: 16px;
-  color: #333;
-}
-
-.result-card span {
-  font-size: 14px;
-  font-weight: bold;
-  color: #28a745;
-}
-
-/* === Footer / Notice === */
-footer {
-  margin: 25px 0;
-  font-size: 14px;
-  color: #555;
+  margin: 8px 0;
+  border-radius: 6px;
+  font-size: 1rem;
+  text-align: left;
 }
