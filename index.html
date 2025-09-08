@@ -1,54 +1,25 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Simple Voting App</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Freshers Day Voting</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="container">
-    <header>
-      <h1>Vote for Your Favourite Option</h1>
-      <p class="subtitle">One vote per browser (localStorage). Real-time counts using Firebase Realtime Database.</p>
-    </header>
+  <header>
+    <h1>🎉 Freshers Day Voting 🎉</h1>
+    <p>Vote for your favorite team below</p>
+  </header>
 
-    <section id="voting-card" class="card">
-      <div id="options" class="options-list">
-        <!-- Options rendered dynamically -->
-      </div>
+  <!-- Container for voting options (populated by app.js) -->
+  <main id="options"></main>
 
-      <div class="status" id="status">Connecting...</div>
-    </section>
+  <footer>
+    <p>One vote per browser is allowed</p>
+  </footer>
 
-    <section id="admin" class="card admin-card">
-      <details>
-        <summary class="admin-summary">Admin (click to open)</summary>
-        <div class="admin-body">
-          <label for="adminPass">Admin password:</label>
-          <input id="adminPass" type="password" placeholder="enter admin password" />
-          <button id="adminLoginBtn">Unlock Admin View</button>
-
-          <div id="adminControls" class="hidden">
-            <h3>Live totals</h3>
-            <ul id="adminTotals"></ul>
-
-            <div class="admin-actions">
-              <button id="resetVotesBtn" class="danger">Reset all votes</button>
-              <button id="exportBtn">Export counts (JSON)</button>
-            </div>
-          </div>
-
-          <div id="adminMessage" class="muted"></div>
-        </div>
-      </details>
-    </section>
-
-    <footer class="footer">
-      <small>Built with Firebase Realtime Database • Demo only — add server-side checks for production</small>
-    </footer>
-  </main>
-
+  <!-- App Script -->
   <script type="module" src="app.js"></script>
 </body>
 </html>
