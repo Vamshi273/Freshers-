@@ -1,17 +1,14 @@
-// app.js — Freshers Day Voting System with Firebase
+// app.js — Freshers Day Voting System with Male/Female options
 
-// Import Firebase SDK (modular v10+)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
 import {
   getDatabase,
   ref,
   onValue,
-  runTransaction,
-  set,
-  get
+  runTransaction
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
 
-// === Your Firebase Config (already filled in) ===
+// === Firebase Config (yours) ===
 const firebaseConfig = {
   apiKey: "AIzaSyAT1fvVo-2B2-F5OFs7cYu8CZUxnneW934",
   authDomain: "freshers-day-bf826.firebaseapp.com",
@@ -22,69 +19,78 @@ const firebaseConfig = {
   appId: "1:349491807955:web:4d97f2bfb667503d36f626"
 };
 
-// ✅ Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// === Voting Options (add more teams here) ===
-const OPTIONS = [
-  { id: "teamA", label: "Team A" },
-  { id: "teamB", label: "Team B" },
-  { id: "teamC", label: "Team C" }
+// === Male & Female Options with images ===
+const males = [
+  { name: "Prabhas", img: "prabhas_latest_photos_2807170354_03.jpg" },
+  { name: "Appu", img: "517EDEYjsHL.jpg" },
+  { name: "Chiranjeevi", img: "https://via.placeholder.com/200x250?text=Vikram" },
+  { name: "Ramcharan", img: "MV5BZWY1NTQyMWItMWU2OS00NWMwLWFlN2MtMDZlYzEwZmU3MTYzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" }
 ];
 
-// Path in database
-const DB_PATH = "votes";
+const females = [
+  { name: "Samantha", img: "samantha-ruth-prabhu-stills-photos-pictures-2008.jpg" },
+  { name: "Sai Pallavi", img: "HD-wallpaper-sai-pallavi-fidaa-love-story-naga-chaitanya-sai-pallavi-shekhar-kammula-tollywood.jpg" },
+  { name: "Sreelela", img: "Sreeleela-m-1.jpg" },
+  { name: "Kajal", img: "a4c87cf5b9871dd67ebc6df0627d000a.jpg" }
+];
 
-// Prevent multiple votes (per browser)
+// === Combine all options ===
+const OPTIONS = [...males, ...females];
+const DB_PATH = "votes";
 const LS_KEY = "freshers_vote_cast";
 
-// === Render options into HTML ===
+// === Render options ===
 function renderOptions() {
   const container = document.getElementById("options");
   container.innerHTML = "";
+
   OPTIONS.forEach(opt => {
+    const safeId = opt.name.replace(/\s+/g, "_"); // Firebase-safe ID
     const div = document.createElement("div");
     div.className = "option";
     div.innerHTML = `
-      <h2>${opt.label}</h2>
-      <button id="btn-${opt.id}">Vote</button>
-      <div class="count" id="count-${opt.id}">0</div>
+      <img src="${opt.img}" alt="${opt.name}">
+      <h2>${opt.name}</h2>
+      <button id="btn-${safeId}">Vote</button>
+      <div class="count" id="count-${safeId}">0</div>
     `;
     container.appendChild(div);
 
-    // Add event listener
-    document.getElementById(`btn-${opt.id}`).addEventListener("click", () => vote(opt.id));
+    document.getElementById(`btn-${safeId}`).addEventListener("click", () => vote(safeId, opt.name));
   });
 }
 
-// === Handle Vote ===
-function vote(optionId) {
+// === Voting ===
+function vote(optionId, optionName) {
   const voted = JSON.parse(localStorage.getItem(LS_KEY) || "{}");
   if (voted.done) {
     alert(`You already voted for "${voted.option}". One vote per browser.`);
     return;
   }
 
-  if (!confirm("Confirm your vote?")) return;
+  if (!confirm(`Vote for ${optionName}?`)) return;
 
   const voteRef = ref(db, `${DB_PATH}/${optionId}`);
-  runTransaction(voteRef, (current) => {
-    return (current || 0) + 1;
-  }).then(() => {
-    localStorage.setItem(LS_KEY, JSON.stringify({ done: true, option: optionId }));
-    disableAllButtons();
-    alert("✅ Thanks! Your vote was recorded.");
-  }).catch(err => {
-    console.error(err);
-    alert("❌ Vote failed. Try again.");
-  });
+  runTransaction(voteRef, (current) => (current || 0) + 1)
+    .then(() => {
+      localStorage.setItem(LS_KEY, JSON.stringify({ done: true, option: optionName }));
+      disableAllButtons();
+      alert("✅ Your vote has been recorded!");
+    })
+    .catch(err => {
+      console.error(err);
+      alert("❌ Error recording vote.");
+    });
 }
 
-// === Disable vote buttons after voting ===
+// === Disable buttons after voting ===
 function disableAllButtons() {
   OPTIONS.forEach(opt => {
-    const btn = document.getElementById(`btn-${opt.id}`);
+    const safeId = opt.name.replace(/\s+/g, "_");
+    const btn = document.getElementById(`btn-${safeId}`);
     if (btn) {
       btn.disabled = true;
       btn.textContent = "Voted";
@@ -92,24 +98,23 @@ function disableAllButtons() {
   });
 }
 
-// === Live updates from Firebase ===
+// === Realtime updates ===
 function startRealtimeUpdates() {
   OPTIONS.forEach(opt => {
-    const countRef = ref(db, `${DB_PATH}/${opt.id}`);
+    const safeId = opt.name.replace(/\s+/g, "_");
+    const countRef = ref(db, `${DB_PATH}/${safeId}`);
     onValue(countRef, (snap) => {
       const count = snap.val() || 0;
-      document.getElementById(`count-${opt.id}`).textContent = count;
+      document.getElementById(`count-${safeId}`).textContent = count;
     });
   });
 }
 
-// === Initialize App ===
+// === Init ===
 window.addEventListener("DOMContentLoaded", () => {
   renderOptions();
   startRealtimeUpdates();
 
   const voted = JSON.parse(localStorage.getItem(LS_KEY) || "{}");
-  if (voted.done) {
-    disableAllButtons();
-  }
+  if (voted.done) disableAllButtons();
 });
