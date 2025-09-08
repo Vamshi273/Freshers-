@@ -30,6 +30,12 @@ const females = [
   {name:"Sreelela", img:"Sreeleela-m-1.jpg"},
   {name:"Kajal", img:"a4c87cf5b9871dd67ebc6df0627d000a.jpg"}
 ];
+const females = [
+  {name:"Samantha", img:"samantha-ruth-prabhu-stills-photos-pictures-2008.jpg"},
+  {name:"Sai Pallavi", img:"HD-wallpaper-sai-pallavi-fidaa-love-story-naga-chaitanya-sai-pallavi-shekhar-kammula-tollywood.jpg"},
+  {name:"Sreelela", img:"Sreeleela-m-1.jpg"},
+  {name:"Kajal", img:"a4c87cf5b9871dd67ebc6df0627d000a.jpg"}
+];
 
 // Create card
 function createCard(person) {
