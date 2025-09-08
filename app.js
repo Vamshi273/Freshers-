@@ -3,17 +3,16 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/fireba
 import { getDatabase, ref, set, get, child, update } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js";
 // Contestants
 const males = [
-  { name: "Prabhas", img: "images/prabhas.jpg" },
-  { name: "Appu", img: "images/appu.jpg" },
-  { name: "Chiranjeevi", img: "images/chiranjeevi.jpg" },
-  { name: "Ramcharan", img: "images/ramcharan.jpg" }
+  {name:"Prabhas", img:"prabhas_latest_photos_2807170354_03.jpg"},
+  {name:"Appu", img:"517EDEYjsHL.jpg"},
+  {name:"Chiranjeevi", img:"https://via.placeholder.com/200x250?text=Vikram"},
+  {name:"Ramcharan", img:"MV5BZWY1NTQyMWItMWU2OS00NWMwLWFlN2MtMDZlYzEwZmU3MTYzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"}
 ];
-
 const females = [
-  { name: "Samantha", img: "images/samantha.jpg" },
-  { name: "Sai Pallavi", img: "images/saipallavi.jpg" },
-  { name: "Sreeleela", img: "images/sreeleela.jpg" },
-  { name: "Kajal", img: "images/kajal.jpg" }
+  {name:"Samantha", img:"samantha-ruth-prabhu-stills-photos-pictures-2008.jpg"},
+  {name:"Sai Pallavi", img:"HD-wallpaper-sai-pallavi-fidaa-love-story-naga-chaitanya-sai-pallavi-shekhar-kammula-tollywood.jpg"},
+  {name:"Sreelela", img:"Sreeleela-m-1.jpg"},
+  {name:"Kajal", img:"a4c87cf5b9871dd67ebc6df0627d000a.jpg"}
 ];
 
 // Helper: create card
