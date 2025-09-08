@@ -1,15 +1,8 @@
-// app.js — Freshers Day Voting System with Admin-only results + Reset
+// ==== Firebase Import ====
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getDatabase, ref, get, set, update, onValue } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-import {
-  getDatabase,
-  ref,
-  onValue,
-  runTransaction,
-  set
-} from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
-
-// === Firebase Config ===
+// ==== Firebase Config ====
 const firebaseConfig = {
   apiKey: "AIzaSyAT1fvVo-2B2-F5OFs7cYu8CZUxnneW934",
   authDomain: "freshers-day-bf826.firebaseapp.com",
@@ -20,10 +13,11 @@ const firebaseConfig = {
   appId: "1:349491807955:web:4d97f2bfb667503d36f626"
 };
 
+// ==== Init Firebase ====
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// === Voting Options ===
+// ==== Candidates ====
 const males = [
   { name: "Prabhas", img: "prabhas_latest_photos_2807170354_03.jpg" },
   { name: "Appu", img: "517EDEYjsHL.jpg" },
@@ -38,121 +32,100 @@ const females = [
   { name: "Kajal", img: "a4c87cf5b9871dd67ebc6df0627d000a.jpg" }
 ];
 
-const OPTIONS = [...males, ...females];
-const DB_PATH = "votes";
-const LS_KEY = "freshers_vote_cast";
-
-// === Render options ===
-function renderOptions(isAdmin = false) {
-  const container = document.getElementById("options");
-  container.innerHTML = "";
-
-  OPTIONS.forEach(opt => {
-    const safeId = opt.name.replace(/\s+/g, "_");
-    const div = document.createElement("div");
-    div.className = "option";
-    div.innerHTML = `
-      <img src="${opt.img}" alt="${opt.name}">
-      <h2>${opt.name}</h2>
-      <button id="btn-${safeId}">Vote</button>
-      ${isAdmin ? `<div class="count" id="count-${safeId}">0</div>` : ""}
+// ==== Render Voting Cards ====
+function renderGroup(containerId, candidates, group) {
+  const container = document.getElementById(containerId);
+  candidates.forEach(person => {
+    const card = document.createElement("div");
+    card.className = "option";
+    card.innerHTML = `
+      <img src="${person.img}" alt="${person.name}">
+      <h3>${person.name}</h3>
+      <button id="vote-${group}-${person.name}">Vote</button>
+      <div class="count" id="count-${group}-${person.name}">Votes: 0</div>
     `;
-    container.appendChild(div);
+    container.appendChild(card);
 
-    document.getElementById(`btn-${safeId}`).addEventListener("click", () => vote(safeId, opt.name));
+    // Vote button click
+    document.getElementById(`vote-${group}-${person.name}`).addEventListener("click", () => {
+      castVote(group, person.name);
+    });
   });
-
-  // Show Reset button only for admin
-  if (isAdmin) {
-    const resetBtn = document.createElement("button");
-    resetBtn.textContent = "🔄 Reset All Votes";
-    resetBtn.className = "reset-btn";
-    resetBtn.addEventListener("click", resetVotes);
-    container.appendChild(resetBtn);
-  }
 }
 
-// === Voting ===
-function vote(optionId, optionName) {
-  const voted = JSON.parse(localStorage.getItem(LS_KEY) || "{}");
-  if (voted.done) {
-    alert(`You already voted for "${voted.option}".`);
+// ==== Voting Function ====
+function castVote(group, name) {
+  const voteKey = `${group}-${name}`;
+  if (localStorage.getItem(voteKey)) {
+    alert("You have already voted for " + name);
     return;
   }
 
-  if (!confirm(`Vote for ${optionName}?`)) return;
-
-  const voteRef = ref(db, `${DB_PATH}/${optionId}`);
-  runTransaction(voteRef, (current) => (current || 0) + 1)
-    .then(() => {
-      localStorage.setItem(LS_KEY, JSON.stringify({ done: true, option: optionName }));
-      disableAllButtons();
-      alert("✅ Your vote was recorded!");
-    })
-    .catch(err => {
-      console.error(err);
-      alert("❌ Error recording vote.");
+  const candidateRef = ref(db, `votes/${group}/${name}`);
+  get(candidateRef).then(snapshot => {
+    let count = snapshot.exists() ? snapshot.val() : 0;
+    update(ref(db, `votes/${group}`), {
+      [name]: count + 1
     });
-}
-
-// === Disable after voting ===
-function disableAllButtons() {
-  OPTIONS.forEach(opt => {
-    const safeId = opt.name.replace(/\s+/g, "_");
-    const btn = document.getElementById(`btn-${safeId}`);
-    if (btn) {
-      btn.disabled = true;
-      btn.textContent = "Voted";
-    }
+    localStorage.setItem(voteKey, "voted");
   });
 }
 
-// === Realtime updates (only for admin) ===
-function startRealtimeUpdates() {
-  OPTIONS.forEach(opt => {
-    const safeId = opt.name.replace(/\s+/g, "_");
-    const countRef = ref(db, `${DB_PATH}/${safeId}`);
-    onValue(countRef, (snap) => {
-      const count = snap.val() || 0;
-      const el = document.getElementById(`count-${safeId}`);
-      if (el) el.textContent = count;
+// ==== Live Vote Updates ====
+function setupLiveUpdates(group, candidates) {
+  const groupRef = ref(db, `votes/${group}`);
+  onValue(groupRef, snapshot => {
+    const data = snapshot.val() || {};
+    candidates.forEach(person => {
+      const countEl = document.getElementById(`count-${group}-${person.name}`);
+      if (countEl) {
+        countEl.textContent = "Votes: " + (data[person.name] || 0);
+      }
     });
   });
 }
 
-// === Reset votes (Admin only) ===
-function resetVotes() {
-  if (!confirm("⚠️ Are you sure you want to reset all votes?")) return;
-
-  OPTIONS.forEach(opt => {
-    const safeId = opt.name.replace(/\s+/g, "_");
-    const voteRef = ref(db, `${DB_PATH}/${safeId}`);
-    set(voteRef, 0); // Reset each vote to 0
-  });
-
-  alert("✅ All votes have been reset!");
-}
-
-// === Init ===
-window.addEventListener("DOMContentLoaded", () => {
-  const isAdmin = sessionStorage.getItem("isAdmin") === "true";
-  renderOptions(isAdmin);
-
-  if (isAdmin) {
-    startRealtimeUpdates();
-  }
-
-  const voted = JSON.parse(localStorage.getItem(LS_KEY) || "{}");
-  if (voted.done) disableAllButtons();
-});
-
-// === Admin Login ===
-window.adminLogin = function () {
-  const pass = prompt("Enter admin password:");
-  if (pass === "admin123") { // change this password!
-    sessionStorage.setItem("isAdmin", "true");
-    location.reload();
+// ==== Admin Login ====
+globalThis.adminLogin = function () {
+  const password = prompt("Enter admin password:");
+  if (password === "admin123") {
+    document.getElementById("adminPanel").style.display = "block";
+    loadAdminResults();
   } else {
-    alert("❌ Wrong password!");
+    alert("Wrong password!");
   }
 };
+
+// ==== Load Results in Admin Panel ====
+function loadAdminResults() {
+  const resultsDiv = document.querySelector(".results");
+  resultsDiv.innerHTML = "";
+
+  ["males", "females"].forEach(group => {
+    const groupRef = ref(db, `votes/${group}`);
+    onValue(groupRef, snapshot => {
+      const data = snapshot.val() || {};
+      Object.keys(data).forEach(name => {
+        const card = document.createElement("div");
+        card.className = "result-card";
+        card.innerHTML = `<h3>${name}</h3><span>${data[name]} votes</span>`;
+        resultsDiv.appendChild(card);
+      });
+    });
+  });
+}
+
+// ==== Reset Votes ====
+globalThis.resetVotes = function () {
+  if (confirm("Are you sure you want to reset all votes?")) {
+    set(ref(db, "votes"), { males: {}, females: {} });
+  }
+};
+
+// ==== Initialize on Page Load ====
+addEventListener("DOMContentLoaded", () => {
+  renderGroup("male-options", males, "males");
+  renderGroup("female-options", females, "females");
+  setupLiveUpdates("males", males);
+  setupLiveUpdates("females", females);
+});
