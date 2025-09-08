@@ -1,6 +1,39 @@
 // ===== Firebase Setup =====
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
 import { getDatabase, ref, set, get, child, update } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js";
+// Contestants
+const males = [
+  { name: "Prabhas", img: "images/prabhas.jpg" },
+  { name: "Appu", img: "images/appu.jpg" },
+  { name: "Chiranjeevi", img: "images/chiranjeevi.jpg" },
+  { name: "Ramcharan", img: "images/ramcharan.jpg" }
+];
+
+const females = [
+  { name: "Samantha", img: "images/samantha.jpg" },
+  { name: "Sai Pallavi", img: "images/saipallavi.jpg" },
+  { name: "Sreeleela", img: "images/sreeleela.jpg" },
+  { name: "Kajal", img: "images/kajal.jpg" }
+];
+
+// Helper: create card
+function createCard(person) {
+  return `
+    <div class="option">
+      <img src="${person.img}" alt="${person.name}">
+      <h3>${person.name}</h3>
+      <button data-option="${person.name}">Vote</button>
+    </div>
+  `;
+}
+
+// Render male contestants
+document.getElementById("male-options").innerHTML = males.map(createCard).join("");
+
+// Render female contestants
+document.getElementById("female-options").innerHTML = females.map(createCard).join("");
+
+// TODO: Add Firebase voting logic here (same as before)
 
 // 🔹 Your Firebase config (replace with your project’s values)
 const firebaseConfig = {
