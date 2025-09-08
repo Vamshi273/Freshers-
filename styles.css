@@ -1,118 +1,76 @@
-/* ===== General Page Style ===== */
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
-  background: linear-gradient(to right, #ffdde1, #ee9ca7);
-  color: #333;
   text-align: center;
-}
-
-/* ===== Header ===== */
-header {
-  background: #ff4b2b;
-  color: white;
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-header h1 {
+  background: #f0f0f0;
   margin: 0;
-  font-size: 2rem;
-}
-
-header p {
-  margin: 5px 0 0;
-  font-size: 1.1rem;
-}
-
-/* ===== Contestant Section ===== */
-section {
   padding: 20px;
 }
 
-h2 {
-  margin-bottom: 15px;
-  font-size: 1.5rem;
-  color: #222;
+h1 {
+  color: #333;
+  margin-bottom: 20px;
 }
 
-.options {
+.section {
+  margin: 20px 0;
+}
+
+.grid {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
-.option {
+.card {
   background: white;
   border-radius: 12px;
-  padding: 15px;
+  padding: 10px;
   width: 180px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
   transition: transform 0.2s;
 }
 
-.option:hover {
-  transform: translateY(-5px);
+.card:hover {
+  transform: scale(1.05);
 }
 
-.option img {
+.card img {
   width: 100%;
   height: 220px;
   object-fit: cover;
+  border-radius: 8px;
+}
+
+.card.selected {
+  border: 3px solid green;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 6px;
+  background: #007BFF;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+.admin {
+  margin-top: 30px;
+  padding: 20px;
+  background: #fff3cd;
+  border: 2px solid #ffeeba;
   border-radius: 10px;
 }
 
-.option h3 {
-  margin: 10px 0;
-  font-size: 1.1rem;
-  color: #444;
-}
-
-.option button {
-  padding: 10px 15px;
-  background: #ff4b2b;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.option button:hover {
-  background: #ff6a4d;
-}
-
-/* ===== Footer ===== */
-footer {
-  background: #ff4b2b;
-  color: white;
-  padding: 15px;
-  font-size: 0.9rem;
-  margin-top: 20px;
-}
-
-/* ===== Admin Panel ===== */
-#adminPanel {
-  margin: 30px auto;
-  max-width: 500px;
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-}
-
-#adminPanel h2 {
-  color: #ff4b2b;
-  margin-bottom: 15px;
-}
-
-#results p {
-  background: #f9f9f9;
-  padding: 10px;
-  margin: 8px 0;
-  border-radius: 6px;
-  font-size: 1rem;
-  text-align: left;
+.hidden {
+  display: none;
 }
