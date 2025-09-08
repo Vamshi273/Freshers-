@@ -1,45 +1,48 @@
 body {
   font-family: Arial, sans-serif;
-  background: #fdf6e3;
+  background: #f4f4f4;
   margin: 0;
   padding: 0;
   text-align: center;
 }
 
 header {
-  background: #4caf50;
+  background: #673ab7;
   color: white;
   padding: 1rem;
 }
 
-h1 {
-  margin: 0;
-}
-
 main {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
   margin: 2rem;
-  flex-wrap: wrap;
 }
 
 .option {
   background: white;
-  border: 2px solid #4caf50;
+  border: 2px solid #673ab7;
   border-radius: 12px;
   padding: 1rem;
-  width: 200px;
+  width: 220px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.option img {
+  width: 200px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .option h2 {
   margin: 0.5rem 0;
-  color: #333;
+  font-size: 1.2rem;
 }
 
 .option button {
-  background: #4caf50;
+  background: #673ab7;
   border: none;
   color: white;
   padding: 0.5rem 1rem;
@@ -50,18 +53,10 @@ main {
 
 .option button:disabled {
   background: gray;
-  cursor: not-allowed;
 }
 
 .count {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin-top: 0.5rem;
-  color: #222;
   font-weight: bold;
-}
-
-footer {
-  margin-top: 2rem;
-  font-size: 0.9rem;
-  color: #666;
 }
