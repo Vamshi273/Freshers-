@@ -16,18 +16,17 @@ const db = getDatabase(app);
 
 // ================= Data =================
 const males = [
-  { name: "Prabhas", img: "prabhas_latest_photos_2807170354_03.jpg" },
-  { name: "Appu", img: "517EDEYjsHL.jpg" },
-  { name: "Chiranjeevi", img: "https://via.placeholder.com/200x250?text=Chiranjeevi" },
-  { name: "Ramcharan", img: "MV5BZWY1NTQyMWItMWU2OS00NWMwLWFlN2MtMDZlYzEwZmU3MTYzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" }
+  {name:"Prabhas", img:"prabhas_latest_photos_2807170354_03.jpg"},
+  {name:"Appu", img:"517EDEYjsHL.jpg"},
+  {name:"Chiranjeevi", img:"https://via.placeholder.com/200x250?text=Vikram"},
+  {name:"Ramcharan", img:"MV5BZWY1NTQyMWItMWU2OS00NWMwLWFlN2MtMDZlYzEwZmU3MTYzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"}
 ];
 const females = [
-  { name: "Samantha", img: "samantha-ruth-prabhu-stills-photos-pictures-2008.jpg" },
-  { name: "Sai Pallavi", img: "HD-wallpaper-sai-pallavi-fidaa-love-story-naga-chaitanya-sai-pallavi-shekhar-kammula-tollywood.jpg" },
-  { name: "Sreelela", img: "Sreeleela-m-1.jpg" },
-  { name: "Kajal", img: "a4c87cf5b9871dd67ebc6df0627d000a.jpg" }
+  {name:"Samantha", img:"samantha-ruth-prabhu-stills-photos-pictures-2008.jpg"},
+  {name:"Sai Pallavi", img:"HD-wallpaper-sai-pallavi-fidaa-love-story-naga-chaitanya-sai-pallavi-shekhar-kammula-tollywood.jpg"},
+  {name:"Sreelela", img:"Sreeleela-m-1.jpg"},
+  {name:"Kajal", img:"a4c87cf5b9871dd67ebc6df0627d000a.jpg"}
 ];
-
 // ================= UI =================
 const maleContainer = document.getElementById("male-container");
 const femaleContainer = document.getElementById("female-container");
