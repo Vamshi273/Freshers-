@@ -17,8 +17,8 @@ const db = getDatabase(app);
 // ================= Data =================
 const males = [
   {name:"Prabhas", img:"prabhas_latest_photos_2807170354_03.jpg"},
-  {name:"Puneet Rajkumar", img:"517EDEYjsHL.jpg"},
-  {name:"Chiranjeevi", img:"https://via.placeholder.com/200x250?text=Vikram"},
+  {name:"Puneet Rajkumar", img:"4b66c7797edf566ce33faf716aff65f6.jpg"},
+  {name:"Chiranjeevi", img:"517EDEYjsHL.jpg"},
   {name:"Ramcharan", img:"MV5BZWY1NTQyMWItMWU2OS00NWMwLWFlN2MtMDZlYzEwZmU3MTYzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"}
 ];
 const females = [
