@@ -16,17 +16,18 @@ const db = getDatabase(app);
 
 // ================= Data =================
 const males = [
-  {name:"Prabhas", img:"prabhas_latest_photos_2807170354_03.jpg"},
-  {name:"Puneet Rajkumar", img:"4b66c7797edf566ce33faf716aff65f6.jpg"},
-  {name:"Chiranjeevi", img:"517EDEYjsHL.jpg"},
-  {name:"Ramcharan", img:"MV5BZWY1NTQyMWItMWU2OS00NWMwLWFlN2MtMDZlYzEwZmU3MTYzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"}
+  { name: "Prabhas", img: "prabhas_latest_photos_2807170354_03.jpg" },
+  { name: "Appu", img: "517EDEYjsHL.jpg" },
+  { name: "Chiranjeevi", img: "https://via.placeholder.com/200x250?text=Chiranjeevi" },
+  { name: "Ramcharan", img: "MV5BZWY1NTQyMWItMWU2OS00NWMwLWFlN2MtMDZlYzEwZmU3MTYzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" }
 ];
 const females = [
-  {name:"Samantha", img:"samantha-ruth-prabhu-stills-photos-pictures-2008.jpg"},
-  {name:"Sai Pallavi", img:"HD-wallpaper-sai-pallavi-fidaa-love-story-naga-chaitanya-sai-pallavi-shekhar-kammula-tollywood.jpg"},
-  {name:"Sreelela", img:"Sreeleela-m-1.jpg"},
-  {name:"Kajal", img:"a4c87cf5b9871dd67ebc6df0627d000a.jpg"}
+  { name: "Samantha", img: "samantha-ruth-prabhu-stills-photos-pictures-2008.jpg" },
+  { name: "Sai Pallavi", img: "HD-wallpaper-sai-pallavi-fidaa-love-story-naga-chaitanya-sai-pallavi-shekhar-kammula-tollywood.jpg" },
+  { name: "Sreelela", img: "Sreeleela-m-1.jpg" },
+  { name: "Kajal", img: "a4c87cf5b9871dd67ebc6df0627d000a.jpg" }
 ];
+
 // ================= UI =================
 const maleContainer = document.getElementById("male-container");
 const femaleContainer = document.getElementById("female-container");
@@ -40,7 +41,7 @@ let selectedFemale = null;
 
 // Render cards
 function renderCards() {
-  males.forEach((m, idx) => {
+  males.forEach((m) => {
     const div = document.createElement("div");
     div.className = "card";
     div.innerHTML = `<img src="${m.img}" alt="${m.name}"><p>${m.name}</p>`;
@@ -52,7 +53,7 @@ function renderCards() {
     maleContainer.appendChild(div);
   });
 
-  females.forEach((f, idx) => {
+  females.forEach((f) => {
     const div = document.createElement("div");
     div.className = "card";
     div.innerHTML = `<img src="${f.img}" alt="${f.name}"><p>${f.name}</p>`;
@@ -67,21 +68,35 @@ function renderCards() {
 
 // ================= Voting =================
 submitBtn.addEventListener("click", async () => {
+  const versionSnap = await get(ref(db, "resetVersion"));
+  const resetVersion = versionSnap.exists() ? versionSnap.val() : 0;
+  const userVersion = localStorage.getItem("resetVersion") || -1;
+
   if (!selectedMale || !selectedFemale) {
     alert("Please select one male and one female!");
     return;
   }
 
-  if (localStorage.getItem("voted")) {
+  if (localStorage.getItem("voted") === "true" && parseInt(userVersion) === resetVersion) {
     alert("You have already voted from this device!");
     return;
   }
 
   try {
-    await update(ref(db, "votes/" + selectedMale), { count: (await get(ref(db, "votes/" + selectedMale))).val()?.count + 1 || 1 });
-    await update(ref(db, "votes/" + selectedFemale), { count: (await get(ref(db, "votes/" + selectedFemale))).val()?.count + 1 || 1 });
+    // Update male vote
+    const maleSnap = await get(ref(db, "votes/" + selectedMale));
+    const maleCount = maleSnap.exists() ? maleSnap.val().count + 1 : 1;
+    await set(ref(db, "votes/" + selectedMale), { count: maleCount });
 
+    // Update female vote
+    const femaleSnap = await get(ref(db, "votes/" + selectedFemale));
+    const femaleCount = femaleSnap.exists() ? femaleSnap.val().count + 1 : 1;
+    await set(ref(db, "votes/" + selectedFemale), { count: femaleCount });
+
+    // Save lock with current reset version
     localStorage.setItem("voted", "true");
+    localStorage.setItem("resetVersion", resetVersion);
+
     alert("Vote submitted successfully!");
   } catch (e) {
     console.error(e);
@@ -106,9 +121,18 @@ async function loadResults() {
 // Reset votes
 resetBtn.addEventListener("click", async () => {
   await remove(ref(db, "votes"));
+
+  // increase resetVersion in DB
+  const versionSnap = await get(ref(db, "resetVersion"));
+  const resetVersion = versionSnap.exists() ? versionSnap.val() + 1 : 1;
+  await set(ref(db, "resetVersion"), resetVersion);
+
+  // clear admin’s own vote lock
   localStorage.removeItem("voted");
+  localStorage.removeItem("resetVersion");
+
   loadResults();
-  alert("All votes have been reset!");
+  alert("All votes have been reset! Now everyone can vote again.");
 });
 
 // Ctrl+R to open Admin Panel
