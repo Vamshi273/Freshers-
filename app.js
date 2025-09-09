@@ -1,5 +1,5 @@
-// ================= Firebase Setup =================
-const { initializeApp, getDatabase, ref, set, get, update, remove } = window.firebaseExports;
+// ========== Firebase Setup ==========
+const { initializeApp, getDatabase, ref, set, get, remove } = window.firebaseExports;
 
 const firebaseConfig = {
   apiKey: "AIzaSyAT1fvVo-2B2-F5OFs7cYu8CZUxnneW934",
@@ -14,7 +14,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// ================= Data =================
+// ========== Data ==========
 const males = [
   { name: "Prabhas", img: "prabhas_latest_photos_2807170354_03.jpg" },
   { name: "Appu", img: "4b66c7797edf566ce33faf716aff65f6.jpg" },
@@ -28,7 +28,7 @@ const females = [
   { name: "Kajal", img: "a4c87cf5b9871dd67ebc6df0627d000a.jpg" }
 ];
 
-// ================= UI =================
+// ========== UI ==========
 const maleContainer = document.getElementById("male-container");
 const femaleContainer = document.getElementById("female-container");
 const submitBtn = document.getElementById("submitBtn");
@@ -39,7 +39,6 @@ const resetBtn = document.getElementById("resetBtn");
 let selectedMale = null;
 let selectedFemale = null;
 
-// Render cards
 function renderCards() {
   males.forEach((m) => {
     const div = document.createElement("div");
@@ -66,7 +65,7 @@ function renderCards() {
   });
 }
 
-// ================= Voting =================
+// ========== Voting ==========
 submitBtn.addEventListener("click", async () => {
   const versionSnap = await get(ref(db, "resetVersion"));
   const resetVersion = versionSnap.exists() ? versionSnap.val() : 0;
@@ -83,17 +82,22 @@ submitBtn.addEventListener("click", async () => {
   }
 
   try {
-    // Update male vote
+    // Male vote
     const maleSnap = await get(ref(db, "votes/" + selectedMale));
-    const maleCount = maleSnap.exists() ? maleSnap.val().count + 1 : 1;
-    await set(ref(db, "votes/" + selectedMale), { count: maleCount });
+    let maleCount = 0;
+    if (maleSnap.exists() && typeof maleSnap.val().count === "number") {
+      maleCount = maleSnap.val().count;
+    }
+    await set(ref(db, "votes/" + selectedMale), { count: maleCount + 1 });
 
-    // Update female vote
+    // Female vote
     const femaleSnap = await get(ref(db, "votes/" + selectedFemale));
-    const femaleCount = femaleSnap.exists() ? femaleSnap.val().count + 1 : 1;
-    await set(ref(db, "votes/" + selectedFemale), { count: femaleCount });
+    let femaleCount = 0;
+    if (femaleSnap.exists() && typeof femaleSnap.val().count === "number") {
+      femaleCount = femaleSnap.val().count;
+    }
+    await set(ref(db, "votes/" + selectedFemale), { count: femaleCount + 1 });
 
-    // Save lock with current reset version
     localStorage.setItem("voted", "true");
     localStorage.setItem("resetVersion", resetVersion);
 
@@ -104,30 +108,27 @@ submitBtn.addEventListener("click", async () => {
   }
 });
 
-// ================= Admin Panel =================
+// ========== Admin ==========
 async function loadResults() {
   const snapshot = await get(ref(db, "votes"));
   resultsDiv.innerHTML = "";
   if (snapshot.exists()) {
     const data = snapshot.val();
     for (const [name, obj] of Object.entries(data)) {
-      resultsDiv.innerHTML += `<p><b>${name}</b>: ${obj.count}</p>`;
+      const count = obj && typeof obj.count === "number" ? obj.count : 0;
+      resultsDiv.innerHTML += `<p><b>${name}</b>: ${count}</p>`;
     }
   } else {
     resultsDiv.innerHTML = "<p>No votes yet.</p>";
   }
 }
 
-// Reset votes
 resetBtn.addEventListener("click", async () => {
   await remove(ref(db, "votes"));
-
-  // increase resetVersion in DB
   const versionSnap = await get(ref(db, "resetVersion"));
   const resetVersion = versionSnap.exists() ? versionSnap.val() + 1 : 1;
   await set(ref(db, "resetVersion"), resetVersion);
 
-  // clear admin’s own vote lock
   localStorage.removeItem("voted");
   localStorage.removeItem("resetVersion");
 
@@ -135,7 +136,6 @@ resetBtn.addEventListener("click", async () => {
   alert("All votes have been reset! Now everyone can vote again.");
 });
 
-// Ctrl+R to open Admin Panel
 document.addEventListener("keydown", (e) => {
   if (e.ctrlKey && e.key === "r") {
     e.preventDefault();
@@ -144,5 +144,5 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// Initialize
+// Init
 renderCards();
