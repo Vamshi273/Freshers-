@@ -1,10 +1,25 @@
-body {
-  font-family: 'Bookman Old Style', serif;
-  text-align: center;
-  background: url("IMG-20250910-WA0004.jpg") no-repeat center center fixed; /* Use your image path */
-  background-size: cover;       /* Make the image cover entire page */
-  color: white;                 /* Keep text readable */
-}
+html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Set the background image */
+        body {
+            background-image: url('IMG-20250910-WA0004.jpg'); /* Replace with your image path */
+            background-size: cover;       /* Make the image cover the entire page */
+            background-position: center;  /* Center the image */
+            background-repeat: no-repeat; /* Do not repeat the image */
+            background-attachment: fixed; /* Keep image fixed when scrolling */
+        }
+
+        /* Optional: content styling */
+        .content {
+            color: white;
+            text-align: center;
+            padding-top: 50px;
+            font-family: Arial, sans-serif;
+        }
 h1 {
   color: #333;
   margin-bottom: 20px;
