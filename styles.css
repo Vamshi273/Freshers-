@@ -1,28 +1,32 @@
-html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
 
-        /* Set the background image */
-        body {
-            background-image: url('IMG-20250910-WA0004.jpg'); /* Replace with your image path */
-            background-size: cover;       /* Make the image cover the entire page */
-            background-position: center;  /* Center the image */
-            background-repeat: no-repeat; /* Do not repeat the image */
-            background-attachment: fixed; /* Keep image fixed when scrolling */
-        }
+  /* 🔥 Background Image */
+  background: url("IMG-20250910-WA0004.jpg") no-repeat center center fixed;
+  background-size: cover;
 
-        /* Optional: content styling */
-        .content {
-            color: white;
-            text-align: center;
-            padding-top: 50px;
-            font-family: Arial, sans-serif;
-        }
+  /* Add overlay for better readability */
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7); /* White overlay for readability */
+  z-index: -1;
+}
+
 h1 {
-  color: #333;
+  color: #222;
   margin-bottom: 20px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
 }
 
 .section {
