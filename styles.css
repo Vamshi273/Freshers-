@@ -74,3 +74,20 @@ button:hover {
 .hidden {
   display: none;
 }
+
+/* Admin logo */
+.admin-logo {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
+}
+
+.admin-logo:hover {
+  transform: scale(1.1);
+}
