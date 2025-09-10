@@ -1,11 +1,10 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Bookman Old Style', serif;
   text-align: center;
-  background: #f0f0f0;
-  margin: 0;
-  padding: 20px;
+  background: url("IMG-20250910-WA0004.jpg") no-repeat center center fixed; /* Use your image path */
+  background-size: cover;       /* Make the image cover entire page */
+  color: white;                 /* Keep text readable */
 }
-
 h1 {
   color: #333;
   margin-bottom: 20px;
