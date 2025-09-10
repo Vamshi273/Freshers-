@@ -6,24 +6,13 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
-  text-align: center;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+            background-image: url('IMG-20250910-WA0004.jpg'); /* Replace with your image path */
+            background-size: cover;       /* Make the image cover the entire page */
+            background-position: center;  /* Center the image */
+            background-repeat: no-repeat; /* Do not repeat the image */
+            background-attachment: fixed; /* Keep image fixed when scrolling */
+        }
 
-  /* 🔥 Background Image */
-  background: url("IMG-20250910-WA0004.jpg") no-repeat center center fixed;
-  background-size: cover;
-
-  /* fallback image online */
-  background-image: url("https://picsum.photos/1920/1080");
-  position: relative;
-  color: #fff;
-}
 
 /* Dark overlay for readability */
 body::before {
