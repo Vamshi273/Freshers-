@@ -35,8 +35,9 @@ const submitBtn = document.getElementById("submitBtn");
 const adminPanel = document.getElementById("adminPanel");
 const resultsDiv = document.getElementById("results");
 const resetBtn = document.getElementById("resetBtn");
+const adminLogo = document.getElementById("adminLogo");
 
-// 🔒 Lock button (for admin to hide panel)
+// 🔒 Lock button (hide admin panel)
 const lockBtn = document.createElement("button");
 lockBtn.textContent = "Lock Admin Panel";
 lockBtn.style.marginTop = "10px";
@@ -158,17 +159,14 @@ resetBtn.addEventListener("click", async () => {
   alert("All votes have been reset! Now everyone can vote again.");
 });
 
-// ========== Admin Panel Access ==========
-document.addEventListener("keydown", (e) => {
-  if (e.ctrlKey && e.key === "r") {
-    e.preventDefault();
-    const password = prompt("Enter Admin Password:");
-    if (password === "admin123") { // 🔑 Change this
-      adminPanel.classList.remove("hidden");
-      loadResults();
-    } else {
-      alert("Incorrect password!");
-    }
+// ========== Admin Panel Access via Logo ==========
+adminLogo.addEventListener("click", () => {
+  const password = prompt("Enter Admin Password:");
+  if (password === "admin123") { // 🔑 Change password
+    adminPanel.classList.remove("hidden");
+    loadResults();
+  } else {
+    alert("Incorrect password!");
   }
 });
 
