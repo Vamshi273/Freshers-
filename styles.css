@@ -1,10 +1,4 @@
-/* Reset & Base */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* Background full screen */
 body {
   font-family: 'Poppins', sans-serif;
   text-align: center;
@@ -12,123 +6,123 @@ body {
   margin: 0;
   padding: 0;
 
-  /* 🔥 Background Image */
-  background: url("images/bg.jpg") no-repeat center center fixed;
+  /* ✅ Background image */
+  background: url("https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1920&q=80")
+    no-repeat center center fixed;
   background-size: cover;
 
-  /* Overlay to make text visible */
-  position: relative;
   color: #fff;
+  position: relative;
+  z-index: 1;
 }
 
+/* Dark overlay */
 body::before {
   content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.5); /* dark overlay */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.65);
   z-index: -1;
 }
 
 /* Headings */
-h1 {
-  font-size: 3rem;
-  font-weight: 700;
+h1, h2 {
+  color: #fff;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
   margin-bottom: 20px;
-  text-shadow: 3px 3px 8px rgba(0,0,0,0.7);
 }
 
-h2 {
-  font-size: 2rem;
-  margin: 15px 0;
-  text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
-}
-
+/* Section spacing */
 .section {
-  margin: 20px 0;
+  margin: 30px 0;
 }
 
-/* Cards Grid */
+/* Grid layout for celebrities */
 .grid {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 20px;
+  justify-items: center;
+  margin: 20px;
 }
 
-.card {
-  background: rgba(255, 255, 255, 0.1); /* glass effect */
-  backdrop-filter: blur(8px);
+/* Celebrity card */
+.grid div {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 12px;
   border-radius: 12px;
-  padding: 10px;
-  width: 180px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
   transition: transform 0.2s, background 0.3s;
-  color: white;
+  color: #fff;
+  font-weight: bold;
+  width: 120px;
 }
 
-.card:hover {
-  transform: scale(1.05);
-  background: rgba(255, 255, 255, 0.2);
+.grid div:hover {
+  transform: scale(1.08);
+  background: rgba(255, 255, 255, 0.25);
 }
 
-.card img {
-  width: 100%;
-  height: 220px;
+/* Celebrity images */
+.grid img {
+  width: 100px;
+  height: 120px;
   object-fit: cover;
   border-radius: 8px;
+  margin-bottom: 8px;
 }
 
-.card.selected {
-  border: 3px solid #00ff88;
-}
-
-/* Buttons */
-button {
-  padding: 12px 25px;
-  font-size: 18px;
-  margin-top: 20px;
-  border: none;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #ff0080, #7928ca);
+/* Submit button */
+button#submitBtn {
+  background: linear-gradient(45deg, #ff0080, #ff8c00);
   color: white;
-  font-weight: bold;
+  border: none;
+  padding: 12px 28px;
+  margin-top: 20px;
+  font-size: 16px;
+  border-radius: 25px;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s, opacity 0.2s;
 }
 
-button:hover {
+button#submitBtn:hover {
   transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  opacity: 0.9;
 }
 
 /* Admin Panel */
 .admin {
-  margin-top: 30px;
+  background: rgba(0, 0, 0, 0.7);
   padding: 20px;
-  background: rgba(255, 243, 205, 0.9);
-  border: 2px solid #ffeeba;
-  border-radius: 10px;
-  color: #222;
+  margin: 30px auto;
+  border-radius: 12px;
+  max-width: 500px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  color: #fff;
 }
 
 .hidden {
   display: none;
 }
 
-/* Admin logo */
-.admin-logo {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
+/* Reset button */
+#resetBtn {
+  background: #e50914;
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  font-size: 14px;
+  border-radius: 20px;
   cursor: pointer;
-  border-radius: 50%;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  margin-top: 15px;
   transition: transform 0.2s;
 }
 
-.admin-logo:hover {
-  transform: scale(1.1);
+#resetBtn:hover {
+  transform: scale(1.05);
+  background: #ff1c24;
 }
