@@ -1,128 +1,107 @@
-/* Background full screen */
-body {
-  font-family: 'Poppins', sans-serif;
-  text-align: center;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
+html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
-  /* ✅ Background image */
-  background: url("IMG-20250910-WA0004.jpg")
-    no-repeat center center fixed;
-  background-size: cover;
+        /* Set the background image */
+        body {
+            background-image: url('IMG-20250910-WA0004.jpg'); /* Replace with your image path */
+            background-size: cover;       /* Make the image cover the entire page */
+            background-position: center;  /* Center the image */
+            background-repeat: no-repeat; /* Do not repeat the image */
+            background-attachment: fixed; /* Keep image fixed when scrolling */
+        }
 
-  color: #fff;
-  position: relative;
-  z-index: 1;
-}
-
-/* Dark overlay */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.65);
-  z-index: -1;
-}
-
-/* Headings */
-h1, h2 {
-  color: #fff;
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+        /* Optional: content styling */
+        .content {
+            color: white;
+            text-align: center;
+            padding-top: 50px;
+            font-family: Arial, sans-serif;
+        }
+h1 {
+  color: #333;
   margin-bottom: 20px;
 }
 
-/* Section spacing */
 .section {
-  margin: 30px 0;
+  margin: 20px 0;
 }
 
-/* Grid layout for celebrities */
 .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 20px;
-  justify-items: center;
-  margin: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
-/* Celebrity card */
-.grid div {
-  background: rgba(255, 255, 255, 0.15);
-  padding: 12px;
+.card {
+  background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-  transition: transform 0.2s, background 0.3s;
-  color: #fff;
-  font-weight: bold;
-  width: 120px;
+  padding: 10px;
+  width: 180px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.2s;
 }
 
-.grid div:hover {
-  transform: scale(1.08);
-  background: rgba(255, 255, 255, 0.25);
+.card:hover {
+  transform: scale(1.05);
 }
 
-/* Celebrity images */
-.grid img {
-  width: 100px;
-  height: 120px;
+.card img {
+  width: 100%;
+  height: 220px;
   object-fit: cover;
   border-radius: 8px;
-  margin-bottom: 8px;
 }
 
-/* Submit button */
-button#submitBtn {
-  background: linear-gradient(45deg, #ff0080, #ff8c00);
-  color: white;
-  border: none;
-  padding: 12px 28px;
-  margin-top: 20px;
+.card.selected {
+  border: 3px solid green;
+}
+
+button {
+  padding: 10px 20px;
   font-size: 16px;
-  border-radius: 25px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 6px;
+  background: #007BFF;
+  color: white;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  transition: transform 0.2s, opacity 0.2s;
+  transition: background 0.2s;
 }
 
-button#submitBtn:hover {
-  transform: scale(1.05);
-  opacity: 0.9;
+button:hover {
+  background: #0056b3;
 }
 
-/* Admin Panel */
 .admin {
-  background: rgba(0, 0, 0, 0.7);
+  margin-top: 30px;
   padding: 20px;
-  margin: 30px auto;
-  border-radius: 12px;
-  max-width: 500px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-  color: #fff;
+  background: #fff3cd;
+  border: 2px solid #ffeeba;
+  border-radius: 10px;
 }
 
 .hidden {
   display: none;
 }
 
-/* Reset button */
-#resetBtn {
-  background: #e50914;
-  color: #fff;
-  border: none;
-  padding: 10px 22px;
-  font-size: 14px;
-  border-radius: 20px;
+/* Admin logo */
+.admin-logo {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
   cursor: pointer;
-  margin-top: 15px;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
   transition: transform 0.2s;
 }
 
-#resetBtn:hover {
-  transform: scale(1.05);
-  background: #ff1c24;
+.admin-logo:hover {
+  transform: scale(1.1);
 }
