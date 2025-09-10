@@ -28,13 +28,16 @@
     <button id="resetBtn">Reset All Votes</button>
   </div>
 
+  <!-- Admin Logo -->
+  <img id="adminLogo" src="images/admin.png" alt="Admin" class="admin-logo">
+
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-    import { getDatabase, ref, set, get, update, remove } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js";
+    import { getDatabase, ref, set, get, update, remove, onValue } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js";
 
     // Expose Firebase globally for app.js
-    window.firebaseExports = { initializeApp, getDatabase, ref, set, get, update, remove };
+    window.firebaseExports = { initializeApp, getDatabase, ref, set, get, update, remove, onValue };
   </script>
 
   <!-- App Logic -->
