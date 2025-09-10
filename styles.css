@@ -6,23 +6,26 @@
 }
 
 body {
-            background-image: url('IMG-20250910-WA0004.jpg'); /* Replace with your image path */
-            background-size: cover;       /* Make the image cover the entire page */
-            background-position: center;  /* Center the image */
-            background-repeat: no-repeat; /* Do not repeat the image */
-            background-attachment: fixed; /* Keep image fixed when scrolling */
-        }
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
 
+  /* 🔥 Background Image */
+  background: url("images/bg.jpg") no-repeat center center fixed;
+  background-size: cover;
 
-/* Dark overlay for readability */
+  /* Overlay to make text visible */
+  position: relative;
+  color: #fff;
+}
+
 body::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.55); /* semi-transparent black */
+  inset: 0;
+  background: rgba(0,0,0,0.5); /* dark overlay */
   z-index: -1;
 }
 
