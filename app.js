@@ -1,5 +1,5 @@
 // ========== Firebase Setup ==========
-const { initializeApp, getDatabase, ref, set, get, remove } = window.firebaseExports;
+const { initializeApp, getDatabase, ref, set, get, remove, onValue } = window.firebaseExports;
 
 const firebaseConfig = {
   apiKey: "AIzaSyAT1fvVo-2B2-F5OFs7cYu8CZUxnneW934",
@@ -36,9 +36,32 @@ const adminPanel = document.getElementById("adminPanel");
 const resultsDiv = document.getElementById("results");
 const resetBtn = document.getElementById("resetBtn");
 
+// 🔒 Lock button (for admin to hide panel)
+const lockBtn = document.createElement("button");
+lockBtn.textContent = "Lock Admin Panel";
+lockBtn.style.marginTop = "10px";
+lockBtn.onclick = () => {
+  adminPanel.classList.add("hidden");
+};
+adminPanel.appendChild(lockBtn);
+
+// 🔐 Voting lock/unlock button
+const toggleVoteBtn = document.createElement("button");
+toggleVoteBtn.textContent = "Lock Voting";
+toggleVoteBtn.style.marginTop = "10px";
+toggleVoteBtn.onclick = async () => {
+  const snap = await get(ref(db, "votingLocked"));
+  const locked = snap.exists() ? snap.val() : false;
+  await set(ref(db, "votingLocked"), !locked);
+  alert(!locked ? "Voting is now LOCKED" : "Voting is now UNLOCKED");
+};
+adminPanel.appendChild(toggleVoteBtn);
+
 let selectedMale = null;
 let selectedFemale = null;
+let votingLocked = false;
 
+// ========== Render Cards ==========
 function renderCards() {
   males.forEach((m) => {
     const div = document.createElement("div");
@@ -67,6 +90,11 @@ function renderCards() {
 
 // ========== Voting ==========
 submitBtn.addEventListener("click", async () => {
+  if (votingLocked) {
+    alert("⚠ Voting is currently locked by Admin!");
+    return;
+  }
+
   const versionSnap = await get(ref(db, "resetVersion"));
   const resetVersion = versionSnap.exists() ? versionSnap.val() : 0;
   const userVersion = localStorage.getItem("resetVersion") || -1;
@@ -84,18 +112,12 @@ submitBtn.addEventListener("click", async () => {
   try {
     // Male vote
     const maleSnap = await get(ref(db, "votes/" + selectedMale));
-    let maleCount = 0;
-    if (maleSnap.exists() && typeof maleSnap.val().count === "number") {
-      maleCount = maleSnap.val().count;
-    }
+    let maleCount = (maleSnap.exists() && typeof maleSnap.val().count === "number") ? maleSnap.val().count : 0;
     await set(ref(db, "votes/" + selectedMale), { count: maleCount + 1 });
 
     // Female vote
     const femaleSnap = await get(ref(db, "votes/" + selectedFemale));
-    let femaleCount = 0;
-    if (femaleSnap.exists() && typeof femaleSnap.val().count === "number") {
-      femaleCount = femaleSnap.val().count;
-    }
+    let femaleCount = (femaleSnap.exists() && typeof femaleSnap.val().count === "number") ? femaleSnap.val().count : 0;
     await set(ref(db, "votes/" + selectedFemale), { count: femaleCount + 1 });
 
     localStorage.setItem("voted", "true");
@@ -136,12 +158,25 @@ resetBtn.addEventListener("click", async () => {
   alert("All votes have been reset! Now everyone can vote again.");
 });
 
+// ========== Admin Panel Access ==========
 document.addEventListener("keydown", (e) => {
   if (e.ctrlKey && e.key === "r") {
     e.preventDefault();
-    adminPanel.classList.toggle("hidden");
-    loadResults();
+    const password = prompt("Enter Admin Password:");
+    if (password === "admin123") { // 🔑 Change this
+      adminPanel.classList.remove("hidden");
+      loadResults();
+    } else {
+      alert("Incorrect password!");
+    }
   }
+});
+
+// ========== Listen for voting lock ==========
+onValue(ref(db, "votingLocked"), (snapshot) => {
+  votingLocked = snapshot.exists() ? snapshot.val() : false;
+  submitBtn.disabled = votingLocked;
+  submitBtn.textContent = votingLocked ? "Voting Locked" : "Submit Vote";
 });
 
 // Init
