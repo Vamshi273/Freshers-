@@ -11,15 +11,18 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;  /* Vertical center */
-  align-items: center;      /* Horizontal center */
+  justify-content: center;
+  align-items: center;
   padding: 20px;
 
   /* 🔥 Background Image */
-  background: url("IMG-20250910-WA0004.jpg") no-repeat center center fixed;
+  background: url("images/bg.jpg") no-repeat center center fixed;
   background-size: cover;
+
+  /* fallback image online */
+  background-image: url("https://picsum.photos/1920/1080");
   position: relative;
-  color: #fff; /* Default white text */
+  color: #fff;
 }
 
 /* Dark overlay for readability */
