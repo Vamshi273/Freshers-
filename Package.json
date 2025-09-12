@@ -1,0 +1,19 @@
+{
+  "name": "celebrity-voting",
+  "version": "1.0.0",
+  "description": "Celebrity Voting Website with Firebase",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "keywords": [
+    "voting",
+    "firebase",
+    "static-site"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "serve": "^14.2.1"
+  }
+}
