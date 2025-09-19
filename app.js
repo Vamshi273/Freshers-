@@ -17,7 +17,7 @@ const db = getDatabase(app);
 // ========== Data ==========
 const males = [
   { name: "Vivek", img: "Screenshot_20250919_124630.jpg" },
-  { name: "Appu", img: "4b66c7797edf566ce33faf716aff65f6.jpg" },
+  { name: "Rajesh", img: "IMG_20250919_140540.jpg" },
   { name: "Affroz ", img: "IMG_20250918_144629.jpg" },
   { name: "Harshavrdhan", img: "Screenshot_20250919_124638.jpg" }
 ];
