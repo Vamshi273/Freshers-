@@ -16,10 +16,10 @@ const db = getDatabase(app);
 
 // ========== Data ==========
 const males = [
-  { name: "Prabhas", img: "prabhas_latest_photos_2807170354_03.jpg" },
+  { name: "Vivek", img: "Screenshot_20250919_124630.jpg" },
   { name: "Appu", img: "4b66c7797edf566ce33faf716aff65f6.jpg" },
   { name: "Affroz ", img: "IMG_20250918_144629.jpg" },
-  { name: "Ramcharan", img: "MV5BZWY1NTQyMWItMWU2OS00NWMwLWFlN2MtMDZlYzEwZmU3MTYzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" }
+  { name: "Harshavrdhan", img: "Screenshot_20250919_124638.jpg" }
 ];
 const females = [
   { name: "Samantha", img: "samantha-ruth-prabhu-stills-photos-pictures-2008.jpg" },
